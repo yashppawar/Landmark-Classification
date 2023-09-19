@@ -1,0 +1,8 @@
+.ipynb_checkpoints/
+__pycache__/
+env/
+__MACOSX/
+checkpoints/
+data/
+landmark_images/
+*.zip
