@@ -107,7 +107,7 @@ def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interact
     # plateau
     # HINT: look here: 
     # https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
-    scheduler  = None # YOUR CODE HERE
+    scheduler  = ExponentialLR(optimizer, gamma=0.9) # YOUR CODE HERE
 
     for epoch in range(1, n_epochs + 1):
 
@@ -132,11 +132,12 @@ def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interact
 
             # Save the weights to save_path
             # YOUR CODE HERE
-
+            torch.jit.save(torch.jit.script(model), save_path)
             valid_loss_min = valid_loss
 
         # Update learning rate, i.e., make a step in the learning rate scheduler
         # YOUR CODE HERE
+        scheduler.step()
 
         # Log the losses and the current learning rate
         if interactive_tracking:
@@ -159,7 +160,7 @@ def one_epoch_test(test_dataloader, model, loss):
 
         # set the model to evaluation mode
         # YOUR CODE HERE
-
+        model.eval()
         if torch.cuda.is_available():
             model = model.cuda()
 
